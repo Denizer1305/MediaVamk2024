@@ -1,0 +1,134 @@
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Главная страница{% endblock %}</title>
+    <!-- Подключение Google Fonts для Comfortaa -->
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=1cd0443c-855b-43c9-804b-8b093053b6bb&lang=ru_RU" type="text/javascript">
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Подключение TailwindCSS через CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Подключение Slick CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    <!-- Подключение Fancybox через CDN -->
+     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
+    
+    <link rel="stylesheet" type="text/css" href="{% static './css/style.css' %}">
+    <!-- Основные стили -->
+</head>
+<body class="bg-gray-100">
+    <!-- Навигационное меню -->
+    <nav class="bg-white p-4 shadow">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="{% url 'home' %}">
+                <div class="flex items-center">
+                    <img src="{% static 'images/medialogo.png' %}" alt="Логотип" class="h-10 mr-2">
+                    <span class="text-xl font-bold">Проводник в мире событий</span>
+                </div>
+            </a>
+            
+            <div>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}" class="mx-2 text-black">Личный кабинет</a>
+                    {% if user.is_staff %}
+                    <a href="{% url 'news_create' %}" class="mx-2 text-black">Создать новость</a>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'login' %}" class="mx-2 text-black">Войти</a>
+                    <a href="{% url 'register' %}" class="mx-2 text-black">Регистрация</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Контент страницы -->
+    <main class="content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Футер -->
+<!-- Футер -->
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto flex flex-wrap justify-between py-6">
+            <div class="w-full md:w-1/2 mb-4 md:mb-0">
+                <h2 class="text-2xl mb-4">О медиацентре</h2>
+                <p>Текст о медиацентре...</p>
+            </div>
+            <div class="w-full md:w-1/2">
+                <h2 class="text-2xl mb-4">Обратная связь</h2>
+                <div id="contact-form-container">
+                    <form id="contact-form" action="{% url 'contact' %}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <label for="name" class="block text-gray-400">Имя</label>
+                            <input type="text" name="name" id="name" class="w-full p-2 border border-gray-300 rounded text-black">
+                        </div>
+                        <div class="mb-4">
+                            <label for="email" class="block text-gray-400">Email</label>
+                            <input type="email" name="email" id="email" class="w-full p-2 border border-gray-300 rounded text-black">
+                        </div>
+                        <div class="mb-4">
+                            <label for="message" class="block text-gray-400">Сообщение</label>
+                            <textarea name="message" id="message" class="w-full p-2 border border-gray-300 rounded text-black"></textarea>
+                        </div>
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Отправить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+      <!-- Подключение jQuery -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <!-- Подключение Slick JS -->
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+      <!-- Подключение Fancybox через CDN -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+      <!-- Инициализация Slick -->
+      <script type="text/javascript">
+         $(document).ready(function(){
+        $('.slick-slider').slick({
+            infinite: true,
+            speed: 300,
+            slidesToShow: 1,
+            adaptiveHeight: false,
+            autoplay: true,
+            autoplaySpeed: 5000,
+            cssEase: 'linear',
+            prevArrow: $('.slick-prev'),
+            nextArrow: $('.slick-next')
+        });
+    });
+
+    $(document).ready(function() {
+        $('#contact-form').on('submit', function(event) {
+            event.preventDefault(); // Предотвращение стандартного поведения формы
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function(response) {
+                    $('#contact-form-container').html('<p class="text-green-500">Ваше сообщение успешно отправлено. Мы свяжемся с вами в ближайшее время.</p>');
+                },
+                error: function(response) {
+                    $('#contact-form-container').html('<p class="text-red-500">Произошла ошибка при отправке сообщения. Пожалуйста, попробуйте снова позже.</p>');
+                }
+            });
+        });
+    });
+        
+      </script>
+    
+    <!-- Подключение SimpleMDE через CDN -->
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

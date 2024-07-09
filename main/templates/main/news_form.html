@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ form.instance.pk|yesno:"Редактировать новость,Создать новость" }}{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white p-6 rounded shadow my-6">
+    <h2 class="text-2xl mb-6">{{ form.instance.pk|yesno:"Редактирование новости,Создание новости" }}</h2>
+    <form action="{% url 'news_create' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form.non_field_errors }}
+        <div class="mb-4">
+            {{ form.title.label_tag }}
+            <input type="text" name="{{ form.title.name }}" value="{{ form.title.value|default_if_none:'' }}" class="w-full p-2 border border-gray-300 rounded" id="{{ form.title.id_for_label }}">
+            {{ form.title.errors }}
+        </div>
+        <div class="mb-4">
+            {{ form.summary.label_tag }}
+            <input type="text" name="{{ form.summary.name }}" value="{{ form.summary.value|default_if_none:'' }}" class="w-full p-2 border border-gray-300 rounded" id="{{ form.summary.id_for_label }}">
+            {{ form.summary.errors }}
+        </div>
+        <div class="mb-4">
+            {{ form.content.label_tag }}
+            <textarea name="{{ form.content.name }}" class="w-full p-2 border border-gray-300 rounded resize-y" id="id_content">{{ form.content.value|default_if_none:'' }}</textarea>
+            {{ form.content.errors }}
+        </div>
+        <div class="mb-4">
+            {{ form.image.label_tag }}
+            <input type="file" name="{{ form.image.name }}" class="w-full p-2 border border-gray-300 rounded" id="{{ form.image.id_for_label }}">
+            {{ form.image.errors }}
+        </div>
+        <div class="mb-4">
+            {{ form.category.label_tag }}
+            <select name="{{ form.category.name }}" class="w-full p-2 border border-gray-300 rounded" id="{{ form.category.id_for_label }}">
+                {% for option in form.category.field.choices %}
+                    <option value="{{ option.0 }}" {% if option.0 == form.category.value %}selected{% endif %}>{{ option.1 }}</option>
+                {% endfor %}
+            </select>
+            {{ form.category.errors }}
+        </div>
+        <button type="submit" class="btn-primary py-2 px-4 rounded">Сохранить</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    var simplemde = new SimpleMDE({ element: document.getElementById("id_content") });
+</script>
+{% endblock %}

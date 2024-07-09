@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Выход из профиля{% endblock %}
+
+{% block content %}
+<div class="container mx-auto flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div class="bg-white p-8 rounded shadow-md w-96">
+        <h2 class="text-2xl font-bold mb-4 text-center">Выход из профиля</h2>
+        <p class="text-gray-600 mb-6 text-center">Вы действительно хотите выйти из профиля?</p>
+        <form action="{% url 'logout' %}" method="POST" class="flex flex-col items-center">
+            {% csrf_token %}
+            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline btn_logout">Выйти</button>
+        </form>
+        <a href="{% url 'profile' %}" class="mt-4 text-blue-500 hover:text-blue-700 font-bold">Отмена</a>
+    </div>
+</div>
+{% endblock %}

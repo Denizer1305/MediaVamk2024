@@ -1,0 +1,195 @@
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+.slick-slider {
+  position: relative;
+}
+
+.slick-arrow-custom {
+  position: absolute;
+  top: -50px; /* Расположить над слайдером */
+  width: 30px;
+  height: 30px;
+  background-color: #329595; /* Цвет фона стрелок */
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.slick-prev {
+  left: 10px; /* Расположить слева */
+}
+
+.slick-next {
+  right: 10px; /* Расположить справа */
+}
+
+.slick-arrow-custom:hover {
+  background-color: #AAE3E3; /* Цвет фона при наведении */
+}
+  body {
+      font-family: 'Comfortaa', sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+  }
+  h1, h2, h3, h4, h5, h6, p {
+      margin: 0;
+      padding: 0;
+      font-family: 'Comfortaa', sans-serif;
+      line-height: normal;
+  }
+  .bg-primary {
+      background-color: #AAE3E3;
+  }
+  .bg-hover-primary:hover {
+      background-color: #329595;
+  }
+  .btn-primary {
+      background-color: #AAE3E3;
+      color: white;
+  }
+  .btn-primary:hover {
+      background-color: #329595;
+      color: white;
+  }
+  .slick-slider {
+      width: 100%;
+  }
+  .slick-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      height: 500px; /* Фиксированная высота для всех слайдов */
+  }
+  .slick-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Обрезка изображения по центру */
+  }
+  .info-block {
+      position: absolute;
+      bottom: 70px;
+      left: 70px;
+      background: rgba(254, 254, 254, 0.894);
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 30%;
+      overflow: hidden;
+  }
+  @media (max-width: 768px) {
+      .info-block {
+          left: 50%;
+          bottom: 10%;
+          transform: translateX(-50%);
+          width: 90%;
+          max-width: none;
+      }
+  }
+  .content {
+      flex: 1;
+  }
+     /* Дополнительные стили для адаптивного меню */
+  .hidden-mobile {
+      @apply hidden;
+  }
+  @media (min-width: 768px) {
+      .hidden-mobile {
+          @apply block;
+      }
+  }
+
+  .markdown-content h1, .markdown-content h2, .markdown-content h3, .markdown-content h4, .markdown-content h5, .markdown-content h6 {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+.markdown-content p {
+    margin-bottom: 1em;
+}
+.markdown-content ul, .markdown-content ol {
+    margin-bottom: 1em;
+    padding-left: 1.5em;
+}
+.markdown-content blockquote {
+    margin-bottom: 1em;
+    padding-left: 1.5em;
+    border-left: 4px solid #ddd;
+    
+}
+.markdown-content h1 {
+    font-size: 2.25rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+.markdown-content h2 {
+    font-size: 1.875rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+.markdown-content h3 {
+    font-size: 1.5rem;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+.markdown-content h4 {
+    font-size: 1.25rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+.markdown-content h5 {
+    font-size: 1rem;
+    margin-top: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+.markdown-content h6 {
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.markdown-content p {
+    font-size: 1rem;
+    line-height: 1.75;
+    margin-bottom: 1.25rem;
+}
+.markdown-content ul, .markdown-content ol {
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+}
+.markdown-content ul li, .markdown-content ol li {
+    margin-bottom: 0.5rem;
+}
+.markdown-content blockquote {
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+    border-left: 4px solid #ddd;
+    color: #555;
+    font-style: italic;
+}
+.markdown-content code {
+    background-color: #f5f5f5;
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-size: 0.875rem;
+}
+.markdown-content pre {
+    background-color: #f5f5f5;
+    padding: 1rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin-bottom: 1.25rem;
+}

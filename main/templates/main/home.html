@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная страница{% endblock %}
+{% load static %}
+
+
+{% block content %}
+<!-- Слайдер на всю ширину -->
+<div class="relative slick-slider">
+    {% for slide in slides %}
+        <div class="slick-slide relative">
+            <img src="{{ slide.image.url }}" alt="{{ slide.title }}" class="w-full h-full object-cover">
+            
+            <div class="info-block">
+                {% if slide.title %}
+                    <h2 class="text-4xl font-bold p-2">{{ slide.title }}</h2>
+                {% endif %}
+                {% if slide.description %}
+                    <p class="p-5">{{ slide.description }}</p>
+                {% endif %}
+                {% if slide.link %}
+                    <a href="{{ slide.link }}" class="btn-primary py-2 px-4 my-2 rounded">Подробнее</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Кнопки под слайдером с подложкой -->
+<div class="bg-primary py-6">
+    <div class="container mx-auto flex flex-wrap justify-center gap-4">
+        <a href="{% url 'news_list' %}" class="flex items-center p-4 bg-white rounded-lg shadow hover:bg-hover-primary transition duration-300 w-48 justify-center">
+            <img src="{% static 'icons/news.svg' %}" alt="Новости" class="w-8 h-8 mr-2">
+            <span class="text-lg font-semibold">Новости</span>
+        </a>
+        <a href="https://maps.google.com" class="flex items-center p-4 bg-white rounded-lg shadow hover:bg-hover-primary transition duration-300 w-48 justify-center">
+            <img src="{% static 'icons/map.svg' %}" alt="Где мы?" class="w-8 h-8 mr-2">
+            <span class="text-lg font-semibold">Где мы?</span>
+        </a>
+        <a href="{% url 'register' %}" class="flex items-center p-4 bg-white rounded-lg shadow hover:bg-hover-primary transition duration-300 w-48 justify-center">
+            <img src="{% static 'icons/join.svg' %}" alt="Вступление" class="w-8 h-8 mr-2">
+            <span class="text-lg font-semibold">Вступление</span>
+        </a>
+        <a href="https://t.me/yourtelegramgroup" class="flex items-center p-4 bg-white rounded-lg shadow hover:bg-hover-primary transition duration-300 w-48 justify-center">
+            <img src="{% static 'icons/chat.svg' %}" alt="Общение" class="w-8 h-8 mr-2">
+            <span class="text-lg font-semibold">Общение</span>
+        </a>
+    </div>
+</div>
+
+<!-- О медиацентре -->
+<div class="container mx-auto py-12">
+    <h2 class="text-3xl mb-4">О медиацентре</h2>
+    <div class="flex flex-wrap md:flex-nowrap">
+        <div class="w-full md:w-2/3 pr-4 mb-4 md:mb-0">
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora perspiciatis, dolor fugit fuga architecto dolores sit tenetur nihil suscipit possimus rerum porro cupiditate corrupti qui sint aliquam quaerat culpa recusandae. </p>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora perspiciatis, dolor fugit fuga architecto dolores sit tenetur nihil suscipit possimus rerum porro cupiditate corrupti qui sint aliquam quaerat culpa recusandae. </p>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora perspiciatis, dolor fugit fuga architecto dolores sit tenetur nihil suscipit possimus rerum porro cupiditate corrupti qui sint aliquam quaerat culpa recusandae. </p>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora perspiciatis, dolor fugit fuga architecto dolores sit tenetur nihil suscipit possimus rerum porro cupiditate corrupti qui sint aliquam quaerat culpa recusandae. </p>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora perspiciatis, dolor fugit fuga architecto dolores sit tenetur nihil suscipit possimus rerum porro cupiditate corrupti qui sint aliquam quaerat culpa recusandae. </p>
+        </div>
+        <div class="w-full md:w-1/3 relative">
+            <img src="{% static 'images/preview.jpg' %}" alt="Видео превью" class="w-full h-auto">
+            <a href="{% static 'videos/about.mp4' %}" data-fancybox class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                <svg class="w-16 h-16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                    <circle cx="12" cy="12" r="10" stroke="#ffffff" stroke-width="1.296"/>
+                    <path d="M15.4137 10.941C16.1954 11.4026 16.1954 12.5974 15.4137 13.059L10.6935 15.8458C9.93371 16.2944 9 15.7105 9 14.7868L9 9.21316C9 8.28947 9.93371 7.70561 10.6935 8.15419L15.4137 10.941Z" stroke="#ffffff" stroke-width="1.296"/>
+                </svg>
+            </a>
+        </div>
+        
+        
+    </div>
+</div>
+
+<!-- Последние новости (слайдер) -->
+
+
+<div class="w-full mt-6">
+    <div id="map" style="width: 100%; height: 400px;"></div>
+</div>
+
+
+<script type="text/javascript">
+    ymaps.ready(init);
+    function init(){
+        var myMap = new ymaps.Map("map", {
+            center: [56.118610, 40.378328], // Замените координаты на ваши
+            zoom: 10,
+            controls: [] // Убираем все элементы управления
+        });
+
+        var myPlacemark = new ymaps.Placemark([56.118610, 40.378328], { // Замените координаты на ваши
+            balloonContent: 'ВлГК им. Советкина, корпус 2'
+        });
+
+        myMap.geoObjects.add(myPlacemark);
+        myMap.setCenter([56.118610, 40.378328]); // Замените координаты на ваши
+    }
+</script>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Новости{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-12">
+    <h2 class="text-3xl font-semibold mb-6">Новости</h2>
+    <div class="flex justify-end mb-6">
+        <form method="get" action="{% url 'news_list' %}" class="flex space-x-2">
+            <input type="text" name="search" placeholder="Поиск" value="{{ form.cleaned_data.search }}" class="p-2 border border-gray-300 rounded">
+            <select name="category" class="p-2 border border-gray-300 rounded">
+                <option value="">Все категории</option>
+                {% for category in form.fields.category.queryset %}
+                    <option value="{{ category.id }}" {% if category.id|stringformat:"s" == request.GET.category %}selected{% endif %}>{{ category.name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn-primary py-2 px-4 rounded">Искать</button>
+        </form>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+        {% for news in page_obj %}
+            <div class="bg-white rounded-lg shadow overflow-hidden">
+                <img src="{{ news.image.url }}" alt="{{ news.title }}" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-semibold mb-2">{{ news.title }}</h3>
+                    <p class="text-gray-700">{{ news.summary }}</p>
+                    <a href="{% url 'news_detail' news.pk %}" class="btn-primary py-2 px-4 rounded mt-2 inline-block">Читать далее</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="mt-6">
+        {% if page_obj.has_other_pages %}
+            <div class="flex justify-between">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1&{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}{% if request.GET.category %}category={{ request.GET.category }}{% endif %}" class="btn-primary py-2 px-4 rounded">Первая</a>
+                    <a href="?page={{ page_obj.previous_page_number }}&{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}{% if request.GET.category %}category={{ request.GET.category }}{% endif %}" class="btn-primary py-2 px-4 rounded">Назад</a>
+                {% else %}
+                    <span class="py-2 px-4 text-gray-500">Назад</span>
+                {% endif %}
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}&{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}{% if request.GET.category %}category={{ request.GET.category }}{% endif %}" class="btn-primary py-2 px-4 rounded">Вперед</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}&{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}{% if request.GET.category %}category={{ request.GET.category }}{% endif %}" class="btn-primary py-2 px-4 rounded">Последняя</a>
+                {% else %}
+                    <span class="py-2 px-4 text-gray-500">Вперед</span>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

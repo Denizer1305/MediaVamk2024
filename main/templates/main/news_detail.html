@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ news_item.title }}{% endblock %}
+
+{% block content %}
+
+<div class="bg-white p-6 rounded shadow my-6">
+    <div>
+        <img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" class="float-right w-full rounded h-64 object-cover mb-4 md:w-1/2 md:mr-6 m-6">
+        <h1 class="text-3xl mb-4">{{ news_item.title }}</h1>
+        <div class="markdown-content">{{ news_item.content|safe }}</div>
+    </div>
+
+
+    <div class="mt-6">
+        <p><strong>Автор:</strong> {{ news_item.author.get_full_name }}</p>
+        {% if user.is_authenticated and user.is_staff %}
+            <a href="{% url 'news_edit' news_item.pk %}" class="text-blue-500">Редактировать</a>
+            <a href="{% url 'news_delete' news_item.pk %}" class="text-red-500">Удалить</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
