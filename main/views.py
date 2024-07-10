@@ -177,5 +177,9 @@ def logout_view(request):
     return redirect('home')  # Перенаправление на домашнюю страницу
 
 
+def your_view(request):
+    address = "ул.Офичерская д.11" # Замените на реальный адрес
+    return render(request, 'main/home.html', {'address': address})
+
 
 
